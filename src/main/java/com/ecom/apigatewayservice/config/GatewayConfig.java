@@ -9,19 +9,18 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class GatewayConfig {
 
 
-
-	    @Bean
-	    public RestTemplate template(){
+    @Bean
+    RestTemplate template(){
 	       return new RestTemplate();
 	    }
-	    
-	    @Bean
-	    public WebClient.Builder webClientBuilder() {
+
+    @Bean
+    WebClient.Builder webClientBuilder() {
 	        return WebClient.builder();
 	    }
-	    
-	    @Bean
-	    public org.springframework.web.client.RestClient.Builder restClientBuilder() {
+
+    @Bean
+    org.springframework.web.client.RestClient.Builder restClientBuilder() {
 	        return org.springframework.web.client.RestClient.builder();
 	    }
 }

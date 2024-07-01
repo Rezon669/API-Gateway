@@ -1,30 +1,39 @@
+
 spring:
- cloud:
-   gateway:
-     routes:
-       - id: users-service
-         uri: lb://UsersService
-         predicates:
-           - Path=/easybuy/user/**
-       
-
-
-       - id: restaurant-service
-         uri: lb://LoginService
-         predicates:
-           - Path=/easybuy/login/**
-       #  filters:
-       #    - AuthenticationFilter
-
-       - id: identity-service
-         uri: lb://IDENTITY-SERVICE
-         predicates:
-           - Path=/auth/**
-
- application:
-   name: SWIGGY-GATEWAY
+  application:
+    name: api-gateway-service
+  cloud:
+    gateway:
+      default-filters:
+      - name: AuthenticationFilter
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: users-service
+          uri: lb://Users-Service
+          predicates:
+            - Path=/easybuy/user/admin/**
+        - id: product-service
+          uri: lb://Product-Service
+          predicates:
+            - Path=/easybuy/product/**
+        - id: jwt-service
+          uri: lb://JWT-Service
+          predicates:
+            - Path=/easybuy/api/**
+        - id: cart-service
+          uri: lb://Cart-Service
+          predicates:
+            - Path=/easybuy/cart/**
+        
 
 eureka:
   client:
     service-url:
-      defaultZone : http://localhost:8761/eureka/
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+
+logging.level.org.springframework.web: DEBUG

@@ -1,4 +1,3 @@
-
 spring:
   application:
     name: api-gateway-service
@@ -11,22 +10,88 @@ spring:
           enabled: true
       routes:
         - id: users-service
-          uri: lb://Users-Service
+          uri: lb://users-service
           predicates:
-            - Path=/easybuy/user/admin/**
+            - Path=/ecom/user/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: usersServiceCircuitBreaker
+                fallbackUri: forward:/fallback/users-service
         - id: product-service
-          uri: lb://Product-Service
+          uri: lb://product-service
           predicates:
-            - Path=/easybuy/product/**
+            - Path=/ecom/product/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: productServiceCircuitBreaker
+                fallbackUri: forward:/fallback/product-service
         - id: jwt-service
-          uri: lb://JWT-Service
+          uri: lb://jwt-service
           predicates:
-            - Path=/easybuy/api/**
+            - Path=/ecom/api/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: jwtServiceCircuitBreaker
+                fallbackUri: forward:/fallback/jwt-service
         - id: cart-service
-          uri: lb://Cart-Service
+          uri: lb://cart-service
           predicates:
-            - Path=/easybuy/cart/**
-        
+            - Path=/ecom/cart/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: cartServiceCircuitBreaker
+                fallbackUri: forward:/fallback/cart-service
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      usersServiceCircuitBreaker:
+        registerHealthIndicator: true
+        waitDurationInOpenState: 10000
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
+        recordExceptions:
+          - java.io.IOException
+          - java.util.concurrent.TimeoutException
+        ignoreExceptions:
+          - java.lang.NullPointerException
+
+      productServiceCircuitBreaker:
+        registerHealthIndicator: true
+        waitDurationInOpenState: 10000
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
+        recordExceptions:
+          - java.io.IOException
+          - java.util.concurrent.TimeoutException
+        ignoreExceptions:
+          - java.lang.NullPointerException
+
+      cartServiceCircuitBreaker:
+        registerHealthIndicator: true
+        waitDurationInOpenState: 10000
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
+        recordExceptions:
+          - java.io.IOException
+          - java.util.concurrent.TimeoutException
+        ignoreExceptions:
+          - java.lang.NullPointerException
+          
+      jwtServiceCircuitBreaker:
+        registerHealthIndicator: true
+        waitDurationInOpenState: 10000
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
+        recordExceptions:
+          - java.io.IOException
+          - java.util.concurrent.TimeoutException
+        ignoreExceptions:
+          - java.lang.NullPointerException
 
 eureka:
   client:
@@ -36,4 +101,4 @@ eureka:
     hostname: localhost
     prefer-ip-address: true
 
-logging.level.org.springframework.web: DEBUG
+#logging.level.org.springframework.web: DEBUG

@@ -8,20 +8,18 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Configuration
 public class GatewayConfig {
 
+	@Bean
+	RestTemplate template() {
+		return new RestTemplate();
+	}
 
-    @Bean
-    RestTemplate template(){
-	       return new RestTemplate();
-	    }
+	@Bean
+	WebClient.Builder webClientBuilder() {
+		return WebClient.builder();
+	}
 
-    @Bean
-    WebClient.Builder webClientBuilder() {
-	        return WebClient.builder();
-	    }
-
-    @Bean
-    org.springframework.web.client.RestClient.Builder restClientBuilder() {
-	        return org.springframework.web.client.RestClient.builder();
-	    }
+	@Bean
+	org.springframework.web.client.RestClient.Builder restClientBuilder() {
+		return org.springframework.web.client.RestClient.builder();
+	}
 }
-

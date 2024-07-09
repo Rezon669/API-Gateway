@@ -12,23 +12,23 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class MyFeignClientConfiguration {
 
-    @Bean
-    public feign.codec.Decoder feignDecoder() {
-        return new ResponseEntityDecoder(new SpringDecoder(new ObjectFactory<HttpMessageConverters>() {
-            @Override
-            public HttpMessageConverters getObject() throws BeansException {
-                return new HttpMessageConverters(); // or your custom HttpMessageConverters bean
-            }
-        }));
-    }
+	@Bean
+	public feign.codec.Decoder feignDecoder() {
+		return new ResponseEntityDecoder(new SpringDecoder(new ObjectFactory<HttpMessageConverters>() {
+			@Override
+			public HttpMessageConverters getObject() throws BeansException {
+				return new HttpMessageConverters();
+			}
+		}));
+	}
 
-    @Bean
-    public feign.codec.Encoder feignEncoder() {
-        return new SpringEncoder(new ObjectFactory<HttpMessageConverters>() {
-            @Override
-            public HttpMessageConverters getObject() throws BeansException {
-                return new HttpMessageConverters(); // or your custom HttpMessageConverters bean
-            }
-        });
-    }
+	@Bean
+	public feign.codec.Encoder feignEncoder() {
+		return new SpringEncoder(new ObjectFactory<HttpMessageConverters>() {
+			@Override
+			public HttpMessageConverters getObject() throws BeansException {
+				return new HttpMessageConverters();
+			}
+		});
+	}
 }

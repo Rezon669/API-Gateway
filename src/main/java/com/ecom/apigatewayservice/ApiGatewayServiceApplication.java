@@ -10,6 +10,7 @@ import com.ecom.apigatewayservice.config.MyFeignClientConfiguration;
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableFeignClients(defaultConfiguration = MyFeignClientConfiguration.class)
+//@EnableCircuitBreaker
 public class ApiGatewayServiceApplication {
 
 	public static void main(String[] args) {
